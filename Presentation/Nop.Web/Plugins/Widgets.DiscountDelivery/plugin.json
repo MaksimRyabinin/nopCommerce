@@ -1,0 +1,11 @@
+﻿{
+  "Group": "Widgets",
+  "FriendlyName": "Discount Delivery",
+  "SystemName": "Widgets.DiscountDelivery",
+  "Version": "1",
+  "SupportedVersions": [ "4.30" ],
+  "Author": "nopCommerce team",
+  "DisplayOrder": 1,
+  "FileName": "Nop.Plugin.Widgets.DiscountDelivery.dll",
+  "Description": "This plugin allows you to change discount"
+}

@@ -271,6 +271,7 @@
             <span asp-validation-for="Sku"></span>
         </div>
     </div>
+
     <div class="form-group">
         <div class="col-md-3">
             <nop-label asp-for="SelectedCategoryIds" />
@@ -300,6 +301,17 @@
             </script>
         </div>
     </div>
+
+    <div class="form-group">
+        <div class="col-md-3">
+            <nop-label asp-for="Author" />
+        </div>
+        <div class="col-md-9">
+            <nop-editor asp-for="Author" />
+            <span asp-validation-for="Author"></span>
+        </div>
+    </div>
+
     <div class="form-group @(Model.ProductEditorSettingsModel.Manufacturers ? null : "advanced-setting")">
         <div class="col-md-3">
             <nop-label asp-for="SelectedManufacturerIds" />
@@ -397,41 +409,40 @@
     </div>
     @if (Model.Id > 0 && Model.AssociatedToProductId > 0)
     {
-        <div class="form-group @(Model.ProductEditorSettingsModel.ProductType ? null : "advanced-setting")">
-            <div class="col-md-3">
-                <nop-label asp-for="AssociatedToProductId" />
-            </div>
-            <div class="col-md-9">
-                <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.AssociatedToProductId">@Model.AssociatedToProductName</a>
-            </div>
-        </div>
-    }
+<div class="form-group @(Model.ProductEditorSettingsModel.ProductType ? null : "advanced-setting")">
+    <div class="col-md-3">
+        <nop-label asp-for="AssociatedToProductId" />
+    </div>
+    <div class="col-md-9">
+        <a asp-controller="Product" asp-action="Edit" asp-route-id="@Model.AssociatedToProductId">@Model.AssociatedToProductName</a>
+    </div>
+</div>}
     <div class="panel panel-default margin-bottom" id="group-associated-products">
         <div class="panel-heading">
             @T("Admin.Catalog.Products.AssociatedProducts")
         </div>
         @if (Model.Id > 0)
         {
-            <div class="panel-body">
-                <ul class="common-list">
-                    <li>
-                        @T("Admin.Catalog.Products.AssociatedProducts.Note1")
-                    </li>
-                    <li>
-                        @T("Admin.Catalog.Products.AssociatedProducts.Note2")
-                    </li>
-                </ul>
+<div class="panel-body">
+    <ul class="common-list">
+        <li>
+            @T("Admin.Catalog.Products.AssociatedProducts.Note1")
+        </li>
+        <li>
+            @T("Admin.Catalog.Products.AssociatedProducts.Note2")
+        </li>
+    </ul>
 
-                @await Html.PartialAsync("Table", new DataTablesModel
-                {
-                    Name = "associatedproducts-grid",
-                    UrlRead = new DataUrl("AssociatedProductList", "Product", new RouteValueDictionary { [nameof(Model.AssociatedProductSearchModel.ProductId)] = Model.AssociatedProductSearchModel.ProductId }),
-                    UrlDelete = new DataUrl("AssociatedProductDelete", "Product", null),
-                    UrlUpdate = new DataUrl("AssociatedProductUpdate", "Product", null),
-                    Length = Model.AssociatedProductSearchModel.PageSize,
-                    LengthMenu = Model.AssociatedProductSearchModel.AvailablePageSizes,
-                    ColumnCollection = new List<ColumnProperty>
-                        {
+    @await Html.PartialAsync("Table", new DataTablesModel
+    {
+        Name = "associatedproducts-grid",
+        UrlRead = new DataUrl("AssociatedProductList", "Product", new RouteValueDictionary { [nameof(Model.AssociatedProductSearchModel.ProductId)] = Model.AssociatedProductSearchModel.ProductId }),
+        UrlDelete = new DataUrl("AssociatedProductDelete", "Product", null),
+        UrlUpdate = new DataUrl("AssociatedProductUpdate", "Product", null),
+        Length = Model.AssociatedProductSearchModel.PageSize,
+        LengthMenu = Model.AssociatedProductSearchModel.AvailablePageSizes,
+        ColumnCollection = new List<ColumnProperty>
+            {
                             new ColumnProperty(nameof(AssociatedProductModel.ProductName))
                             {
                                 Title = T("Admin.Catalog.Products.AssociatedProducts.Fields.Product").Text
@@ -466,32 +477,30 @@
                                 ClassName = NopColumnClassDefaults.Button
                             }
                         }
-                })
-            </div>
-            <div class="panel-footer">
-                <button type="submit" id="btnAddNewAssociatedProduct" onclick="javascript:OpenWindow('@(Url.Action("AssociatedProductAddPopup", "Product", new {productId = Model.Id, btnId = "btnRefreshAssociatedProducts", formId = "product-form"}))', 800, 800, true); return false;" class="btn btn-primary">
-                    @T("Admin.Catalog.Products.AssociatedProducts.AddNew")
-                </button>
-                <input type="submit" id="btnRefreshAssociatedProducts" style="display: none" />
-                <script>
-                    $(document).ready(function () {
-                        $('#btnRefreshAssociatedProducts').click(function () {
-                            //refresh grid
-                            updateTable('#associatedproducts-grid');
+    })
+</div>
+                <div class="panel-footer">
+                    <button type="submit" id="btnAddNewAssociatedProduct" onclick="javascript:OpenWindow('@(Url.Action("AssociatedProductAddPopup", "Product", new {productId = Model.Id, btnId = "btnRefreshAssociatedProducts", formId = "product-form"}))', 800, 800, true); return false;" class="btn btn-primary">
+                        @T("Admin.Catalog.Products.AssociatedProducts.AddNew")
+                    </button>
+                    <input type="submit" id="btnRefreshAssociatedProducts" style="display: none" />
+                    <script>
+                        $(document).ready(function () {
+                            $('#btnRefreshAssociatedProducts').click(function () {
+                                //refresh grid
+                                updateTable('#associatedproducts-grid');
 
-                            //return false to don't reload a page
-                            return false;
+                                //return false to don't reload a page
+                                return false;
+                            });
                         });
-                    });
-                </script>
-            </div>
-        }
-        else
-        {
-            <div class="panel-body">
-                @T("Admin.Catalog.Products.AssociatedProducts.SaveBeforeEdit")
-            </div>
-        }
+                    </script>
+                </div> }
+                            else
+                            {
+                <div class="panel-body">
+                    @T("Admin.Catalog.Products.AssociatedProducts.SaveBeforeEdit")
+                </div>}
     </div>
     <div class="form-group @(Model.ProductEditorSettingsModel.ProductTemplate ? null : "advanced-setting")" @(Model.AvailableProductTemplates.SelectionIsNotPossible() ? Html.Raw("style=\"display:none\"") : null) id="pnlProductTemplateId">
         <div class="col-md-3">
@@ -518,7 +527,7 @@
         <div class="col-md-9">
             <div class="row">
                 <div class="col-md-4">
-                    <nop-select asp-for="SelectedCustomerRoleIds" asp-items="Model.AvailableCustomerRoles" asp-multiple="true"/>
+                    <nop-select asp-for="SelectedCustomerRoleIds" asp-items="Model.AvailableCustomerRoles" asp-multiple="true" />
                     <script>
                         $(document).ready(function() {
                             var rolesIdsInput = $('#@Html.IdFor(model => model.SelectedCustomerRoleIds)')
